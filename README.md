@@ -7,5 +7,5 @@ Smart Cane using semantic segmentation
 
 
 ### 데이터셋
-https://aihub.or.kr/aidata/136
+🔗 https://aihub.or.kr/aidata/136
 
