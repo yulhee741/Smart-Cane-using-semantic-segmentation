@@ -19,9 +19,6 @@ IMG_WIDTH = 480
 IMG_HEIGHT = 272
 n_classes = 7
 
-#model = pspunet((IMG_HEIGHT, IMG_WIDTH, 3), n_classes)
-#model.load_weights("pspunet_weight.h5")
-
 model = load_model('pspunet_weight.h5')
 img = cv2.imread('./surface_img/data1.jpeg')
 
