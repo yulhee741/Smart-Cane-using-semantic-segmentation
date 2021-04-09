@@ -28,13 +28,14 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 img = img / 255
 
 img = tf.expand_dims(img, 0)
+print("===============")
+print(img.shape)
 pre = model.predict(img)
 pre = create_mask(pre).numpy()
 
 print(pre)
 
 frame2 = img/2
-print("===============")
 
 
 #frame2 = cv2.cvtColor(frame2, cv2.COLOR_RGB2BGR)
