@@ -1,10 +1,10 @@
 import cv2
 import tensorflow as tf
-from model.pspunet import pspunet
 from data_loader.display import create_mask
 import numpy as np
 from PIL import Image
-from keras.models import load_model
+import tflite-runtime.interpreter as tflite
+
 gpus = tf.config.experimental.list_physical_devices('GPU')
 
 if gpus:
@@ -19,20 +19,30 @@ IMG_WIDTH = 480
 IMG_HEIGHT = 272
 n_classes = 7
 
-#model = pspunet((IMG_HEIGHT, IMG_WIDTH, 3), n_classes)
-#model.load_weights("pspunet_weight.h5")
 
-model = load_model('pspunet_weight.h5')
+tensorflow_lite_model_file = "/Users/kim-yulhee/Smart-Cane-using-semantic-segmentation/converted_model.tflite"
+#my_signature = interpreter.get_signature_runner()
+interpreter.allocate_tensors()
+
+interpreter = tflite.Interpreter(tensorflow_lite_model_file)
 img = cv2.imread('./surface_img/data1.jpeg')
-
 img = cv2.resize(img, (IMG_WIDTH,IMG_HEIGHT))
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 img = img / 255
 
 img = tf.expand_dims(img, 0)
-pre = model.predict(img)
-pre = create_mask(pre).numpy()
+
+input_data = img
+
+interpreter.set_tensor(input_data)
+
+interpreter.invoke()
+
+output_data = sep_interpreter.get_tensor()
+
+pre = create_mask(output_data).numpy()
+
 
 print(pre)
 
