@@ -21,7 +21,6 @@ n_classes = 7
 
 
 tensorflow_lite_model_file = "/Users/kim-yulhee/Smart-Cane-using-semantic-segmentation/converted_model.tflite"
-#my_signature = interpreter.get_signature_runner()
 
 interpreter = tf.lite.Interpreter(tensorflow_lite_model_file)
 # Load TFLite model and allocate tensors.
@@ -32,7 +31,8 @@ output_details = interpreter.get_output_details()
 
 
 # input details
-#print(input_details)
+print("----------input details----------")
+print(input_details)
 
 img = cv2.imread('./surface_img/data1.jpeg')
 img = cv2.resize(img, (IMG_WIDTH,IMG_HEIGHT))
@@ -53,11 +53,9 @@ interpreter.invoke()
 output_data = interpreter.get_tensor(output_details[0]['index'])
 
 pre = create_mask(output_data).numpy()
-print(pre)
 
-frame2 = img/2
-print("===============")
+for x in pre:
+    for i in x:
+        print(i, end=' ')
+    print()
 
-
-#frame2 = cv2.cvtColor(frame2, cv2.COLOR_RGB2BGR)
-#cv2.imwrite('./output/result.png', img1)
