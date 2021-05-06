@@ -31,8 +31,8 @@ output_details = interpreter.get_output_details()
 
 
 # input details
-print("----------input details----------")
-print(input_details)
+#print("----------input details----------")
+#print(input_details)
 
 img = cv2.imread('./surface_img/data1.jpeg')
 img = cv2.resize(img, (IMG_WIDTH,IMG_HEIGHT))
