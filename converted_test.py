@@ -31,8 +31,8 @@ output_details = interpreter.get_output_details()
 
 
 # input details
-#print("----------input details----------")
-#print(input_details)
+print("----------input details----------")
+print(input_details[0]['index'])
 
 img = cv2.imread('./surface_img/data1.jpeg')
 img = cv2.resize(img, (IMG_WIDTH,IMG_HEIGHT))
@@ -44,8 +44,13 @@ img = tf.expand_dims(img, 0)
 
 input_data = np.array(img, dtype=np.float32)
 
+# Get indexes of input and output layers
+# input_details[0]['index']를 출력하면 0, 딕셔너리 안에 index라는 key가 있고 그 Index값이 0임.
+# [1,IMG_HEIGHT, IMG_WIDTH,3] -> input에 들어가는 image의 shape 형태 [갯수, height, width, 채널]
 interpreter.resize_tensor_input(input_details[0]['index'],[1, IMG_HEIGHT, IMG_WIDTH, 3])
+# allocate_tensor
 interpreter.allocate_tensors()
+#Step 2. Transform input data
 interpreter.set_tensor(input_details[0]['index'], input_data)
 # run the inference
 interpreter.invoke()
@@ -53,9 +58,10 @@ interpreter.invoke()
 output_data = interpreter.get_tensor(output_details[0]['index'])
 
 pre = create_mask(output_data).numpy()
+print(pre)
 
-for x in pre:
-    for i in x:
-        print(i, end=' ')
-    print()
+# for x in pre:
+#     for i in x:
+#         print(i, end=' ')
+#     print()
 
