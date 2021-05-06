@@ -44,13 +44,19 @@ img = tf.expand_dims(img, 0)
 
 input_data = np.array(img, dtype=np.float32)
 
-# Get indexes of input and output layers
-# input_details[0]['index']를 출력하면 0, 딕셔너리 안에 index라는 key가 있고 그 Index값이 0임.
-# [1,IMG_HEIGHT, IMG_WIDTH,3] -> input에 들어가는 image의 shape 형태 [갯수, height, width, 채널]
+'''
+Get indexes of input and output layers
+input_details[0]['index']를 출력하면 0, 딕셔너리 안에 index라는 key가 있고 그 Index값이 0임.
+[1,IMG_HEIGHT, IMG_WIDTH,3] -> input에 들어가는 image의 shape 형태 [갯수, height, width, 채널]
+'''
 interpreter.resize_tensor_input(input_details[0]['index'],[1, IMG_HEIGHT, IMG_WIDTH, 3])
 # allocate_tensor
 interpreter.allocate_tensors()
-#Step 2. Transform input data
+'''
+Transform input data (tensor_index, value)
+tensor_index: Tensor index of tensor to set. This value can be gotten from the 'index' field in get_input_details.
+value:	Value of tensor to set.
+'''
 interpreter.set_tensor(input_details[0]['index'], input_data)
 # run the inference
 interpreter.invoke()
