@@ -31,14 +31,9 @@ output_details = interpreter.get_output_details()
 
 
 # input details
-print("----------input details----------")
-print(input_details[0]['index'])
-
-img = cv2.imread('./surface_img/data1.jpeg')
+img = cv2.imread('./surface_img/MP_SEL_SUR_009569.jpg')
 img = cv2.resize(img, (IMG_WIDTH,IMG_HEIGHT))
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-img = img / 255
 
 img = tf.expand_dims(img, 0)
 
@@ -65,7 +60,6 @@ output_data = interpreter.get_tensor(output_details[0]['index'])
 
 pre = create_mask(output_data).numpy()
 
-#result1 = np.array(pre).T[0][0]
 result1 = np.array(pre).T[0][0:80]
 result2 = np.array(pre).T[0][80:160]
 result3 = np.array(pre).T[0][160:240]
@@ -73,101 +67,23 @@ result4 = np.array(pre).T[0][240:320]
 result5 = np.array(pre).T[0][320:400]
 result6 = np.array(pre).T[0][400:480]
 
-print(result1)
-print("=================================")
-print(result2)
-caution1_2 = []
-caution1_3 = []
-caution1_5 = []
-for j in result1:
-    for x in j:
-        if x == 3:
-            caution1_3.append(j)
-        elif x == 2:
-            caution1_2.append(j)
-        elif x == 5:
-            caution1_5.append(j)
+caution = {'clist1':0, 'clist2':0, 'clist3':0, 'clist4':0, 'clist5':0, 'clist6':0}
 
-print("label2: ", len(caution1_2))
-print("label3: ", len(caution1_3))
-print("label5: ", len(caution1_5))
+def caution_zone(result, clist):
+    for j in result:
+        for x in j:
+            if x == 2:
+                clist += 1
+    return clist
 
-caution2_2 = []
-caution2_3 = []
-caution2_5 = []
-for j in result2:
-    for x in j:
-        if x == 3:
-            caution2_3.append(j)
-        elif x == 2:
-            caution2_2.append(j)
-        elif x == 5:
-            caution2_5.append(j)
 
-print("label2: ", len(caution2_2))
-print("label3: ", len(caution2_3))
-print("label5: ", len(caution2_5))
+def direction_guidance():
+    pass
 
-caution3_2 = []
-caution3_3 = []
-caution3_5 = []
-for j in result2:
-    for x in j:
-        if x == 3:
-            caution3_3.append(j)
-        elif x == 2:
-            caution3_2.append(j)
-        elif x == 5:
-            caution3_5.append(j)
+print("The number of label 2 in result1 : ", caution_zone(result1, caution['clist1']))
+print("The number of label 2 in result2 : ", caution_zone(result2, caution['clist2']))
+print("The number of label 2 in result3 : ", caution_zone(result3, caution['clist3']))
+print("The number of label 2 in result4 : ", caution_zone(result4, caution['clist4']))
+print("The number of label 2 in result5 : ", caution_zone(result5, caution['clist5']))
+print("The number of label 2 in result6 : ", caution_zone(result6, caution['clist6']))
 
-print("label2: ", len(caution3_2))
-print("label2: ", len(caution3_3))
-print("label5: ", len(caution3_5))
-
-caution4_2 = []
-caution4_3 = []
-caution4_5 = []
-for j in result2:
-    for x in j:
-        if x == 3:
-            caution4_3.append(j)
-        elif x == 2:
-            caution4_2.append(j)
-        elif x == 5:
-            caution4_5.append(j)
-
-print("label2: ", len(caution4_2))
-print("label2: ", len(caution4_3))
-print("label5: ", len(caution4_5))
-
-caution5_2 = []
-caution5_3 = []
-caution5_5 = []
-for j in result2:
-    for x in j:
-        if x == 3:
-            caution5_3.append(j)
-        elif x == 2:
-            caution5_2.append(j)
-        elif x == 5:
-            caution5_5.append(j)
-
-print("label2: ", len(caution5_2))
-print("label2: ", len(caution5_3))
-print("label5: ", len(caution5_5))
-
-caution6_2 = []
-caution6_3 = []
-caution6_5 = []
-for j in result2:
-    for x in j:
-        if x == 3:
-            caution6_3.append(j)
-        elif x == 2:
-            caution6_2.append(j)
-        elif x == 5:
-            caution6_5.append(j)
-
-print("label2: ", len(caution6_2))
-print("label2: ", len(caution6_3))
-print("label5: ", len(caution6_5))
